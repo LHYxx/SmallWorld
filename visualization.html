@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>.link {  fill: none;  stroke: #666;  stroke-width: 1px;}#licensing {  fill: green;}.link.licensing {  stroke: green;}.link.resolved {  stroke-dasharray: 0,2 1;}circle {  fill: #ccc;  stroke: #333;  stroke-width: 1px;}text {  font: 10px Microsoft YaHei;  pointer-events: none;  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;}.linetext {    font-size: 12px Microsoft YaHei;}</style>
+<body>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script>
+
+var links = 
+[
+{source: '鲁迅', target: '朱安', 'rela': '妻子', type: 'resolved'},
+{source: '鲁迅', target: '许广平', 'rela': '妻子', type: 'resolved'},
+{source: '鲁迅', target: '周海婴', 'rela': '儿子', type: 'resolved'},
+{source: '鲁迅', target: '周伯宜', 'rela': '父亲', type: 'resolved'},
+{source: '鲁迅', target: '鲁瑞', 'rela': '母亲', type: 'resolved'},
+{source: '鲁迅', target: '周作人', 'rela': '弟弟', type: 'resolved'},
+{source: '鲁迅', target: '周介孚', 'rela': '爷爷', type: 'resolved'},
+{source: '鲁迅', target: '周令飞', 'rela': '孙子', type: 'resolved'},
+{source: '鲁迅', target: '马新云', 'rela': '儿媳', type: 'resolved'},
+{source: '鲁迅', target: '羽太信子', 'rela': '弟媳', type: 'resolved'},
+{source: '鲁迅', target: '周璟馨', 'rela': '曾孙女', type: 'resolved'},
+{source: '鲁迅', target: '台静农', 'rela': '好友', type: 'resolved'},
+{source: '鲁迅', target: '赵家璧', 'rela': '好友', type: 'resolved'},
+{source: '鲁迅', target: '萧伯纳', 'rela': '好友', type: 'resolved'},
+{source: '鲁迅', target: '冯乃超', 'rela': '战友', type: 'resolved'},
+{source: '鲁迅', target: '林默涵', 'rela': '学生', type: 'resolved'},
+{source: '鲁迅', target: '孙伏园', 'rela': '学生', type: 'resolved'},
+{source: '鲁迅', target: '萧红', 'rela': '学生', type: 'resolved'},
+{source: '鲁迅', target: '藤野严九郎', 'rela': '老师', type: 'resolved'},
+{source: '朱安', target: '鲁迅', 'rela': '丈夫', type: 'resolved'},
+{source: '许广平', target: '鲁迅', 'rela': '丈夫', type: 'resolved'},
+{source: '许广平', target: '周海婴', 'rela': '儿子', type: 'resolved'},
+{source: '许广平', target: '周令飞', 'rela': '孙子', type: 'resolved'},
+{source: '许广平', target: '马新云', 'rela': '儿媳', type: 'resolved'},
+{source: '许广平', target: '许崇清', 'rela': '堂哥', type: 'resolved'},
+{source: '周海婴', target: '马新云', 'rela': '妻子', type: 'resolved'},
+{source: '周海婴', target: '周令飞', 'rela': '儿子', type: 'resolved'},
+{source: '周海婴', target: '鲁迅', 'rela': '父亲', type: 'resolved'},
+{source: '周海婴', target: '许广平', 'rela': '母亲', type: 'resolved'},
+{source: '周海婴', target: '鲁瑞', 'rela': '奶奶', type: 'resolved'},
+{source: '周海婴', target: '周璟馨', 'rela': '孙女', type: 'resolved'},
+{source: '周海婴', target: '周作人', 'rela': '叔叔', type: 'resolved'},
+{source: '周伯宜', target: '鲁迅', 'rela': '儿子', type: 'resolved'},
+{source: '鲁瑞', target: '周作人', 'rela': '儿子', type: 'resolved'},
+{source: '鲁瑞', target: '鲁迅', 'rela': '儿子', type: 'resolved'},
+{source: '鲁瑞', target: '周海婴', 'rela': '孙子', type: 'resolved'},
+{source: '周作人', target: '羽太信子', 'rela': '妻子', type: 'resolved'},
+{source: '周作人', target: '鲁瑞', 'rela': '母亲', type: 'resolved'},
+{source: '周作人', target: '鲁迅', 'rela': '哥哥', type: 'resolved'},
+{source: '周作人', target: '周建人', 'rela': '弟弟', type: 'resolved'},
+{source: '周作人', target: '羽太芳子', 'rela': '妻妹', type: 'resolved'},
+{source: '周作人', target: '周海婴', 'rela': '侄子', type: 'resolved'},
+{source: '周作人', target: '俞平伯', 'rela': '学生', type: 'resolved'},
+{source: '周作人', target: '章太炎', 'rela': '老师', type: 'resolved'},
+{source: '周介孚', target: '鲁迅', 'rela': '孙子', type: 'resolved'},
+{source: '周令飞', target: '周璟馨', 'rela': '女儿', type: 'resolved'},
+{source: '周令飞', target: '周海婴', 'rela': '父亲', type: 'resolved'},
+{source: '周令飞', target: '马新云', 'rela': '母亲', type: 'resolved'},
+{source: '周令飞', target: '鲁迅', 'rela': '爷爷', type: 'resolved'},
+{source: '周令飞', target: '许广平', 'rela': '奶奶', type: 'resolved'},
+{source: '马新云', target: '周海婴', 'rela': '丈夫', type: 'resolved'},
+{source: '马新云', target: '周令飞', 'rela': '儿子', type: 'resolved'},
+{source: '马新云', target: '鲁迅', 'rela': '公公', type: 'resolved'},
+{source: '马新云', target: '许广平', 'rela': '婆婆', type: 'resolved'},
+{source: '马新云', target: '周璟馨', 'rela': '孙女', type: 'resolved'},
+{source: '羽太信子', target: '周作人', 'rela': '丈夫', type: 'resolved'},
+{source: '周璟馨', target: '周令飞', 'rela': '父亲', type: 'resolved'},
+{source: '周璟馨', target: '鲁迅', 'rela': '曾祖父', type: 'resolved'},
+{source: '周璟馨', target: '周海婴', 'rela': '爷爷', type: 'resolved'},
+{source: '周璟馨', target: '马新云', 'rela': '奶奶', type: 'resolved'},
+{source: '台静农', target: '鲁迅', 'rela': '好友', type: 'resolved'},
+{source: '台静农', target: '林文月', 'rela': '学生', type: 'resolved'},
+{source: '台静农', target: '沈尹默', 'rela': '老师', type: 'resolved'},
+{source: '赵家璧', target: '鲁迅', 'rela': '好友', type: 'resolved'},
+{source: '萧伯纳', target: '弗兰克·哈里斯', 'rela': '好友', type: 'resolved'},
+{source: '萧伯纳', target: '玛克西姆·高尔基', 'rela': '好友', type: 'resolved'},
+{source: '萧伯纳', target: '鲁迅', 'rela': '好友', type: 'resolved'},
+{source: '冯乃超', target: '冯真', 'rela': '儿子', type: 'resolved'},
+{source: '冯乃超', target: '李书城', 'rela': '岳父', type: 'resolved'},
+{source: '冯乃超', target: '李丹阳', 'rela': '外甥女', type: 'resolved'},
+{source: '冯乃超', target: '鲁迅', 'rela': '战友', type: 'resolved'},
+{source: '林默涵', target: '鲁迅', 'rela': '老师', type: 'resolved'},
+{source: '孙伏园', target: '孙福熙', 'rela': '弟弟', type: 'resolved'},
+{source: '孙伏园', target: '鲁迅', 'rela': '老师', type: 'resolved'},
+{source: '萧红', target: '端木蕻良', 'rela': '丈夫', type: 'resolved'},
+{source: '萧红', target: '萧军', 'rela': '前夫', type: 'resolved'},
+{source: '萧红', target: '鲁迅', 'rela': '老师', type: 'resolved'},
+{source: '藤野严九郎', target: '鲁迅', 'rela': '学生', type: 'resolved'},
+{source: '许崇清', target: '许崇灏', 'rela': '哥哥', type: 'resolved'},
+{source: '许崇清', target: '朱明远', 'rela': '外孙子', type: 'resolved'},
+{source: '许崇清', target: '朱光亚', 'rela': '女婿', type: 'resolved'},
+{source: '许崇清', target: '许崇智', 'rela': '堂哥', type: 'resolved'},
+{source: '许崇清', target: '许广平', 'rela': '堂妹', type: 'resolved'},
+{source: '周建人', target: '周作人', 'rela': '哥哥', type: 'resolved'},
+{source: '羽太芳子', target: '周作人', 'rela': '姐夫', type: 'resolved'},
+{source: '俞平伯', target: '俞陛云', 'rela': '父亲', type: 'resolved'},
+{source: '俞平伯', target: '胡适', 'rela': '好友', type: 'resolved'},
+{source: '俞平伯', target: '周作人', 'rela': '老师', type: 'resolved'},
+{source: '俞平伯', target: '废名', 'rela': '同门', type: 'resolved'},
+{source: '章太炎', target: '刘觉民', 'rela': '战友', type: 'resolved'},
+{source: '章太炎', target: '方国瑜', 'rela': '学生', type: 'resolved'},
+{source: '章太炎', target: '陈存仁', 'rela': '学生', type: 'resolved'},
+{source: '章太炎', target: '沈兼士', 'rela': '学生', type: 'resolved'},
+{source: '章太炎', target: '吴承仕', 'rela': '学生', type: 'resolved'},
+{source: '章太炎', target: '黄侃', 'rela': '学生', type: 'resolved'},
+{source: '章太炎', target: '周作人', 'rela': '学生', type: 'resolved'},
+{source: '章太炎', target: '朱希祖', 'rela': '学生', type: 'resolved'},
+{source: '章太炎', target: '钱玄同', 'rela': '学生', type: 'resolved'},
+{source: '林文月', target: '连横', 'rela': '外公', type: 'resolved'},
+{source: '林文月', target: '台静农', 'rela': '老师', type: 'resolved'},
+{source: '沈尹默', target: '沈兼士', 'rela': '弟弟', type: 'resolved'},
+{source: '沈尹默', target: '台静农', 'rela': '学生', type: 'resolved'},
+{source: '沈尹默', target: '胡问遂', 'rela': '学生', type: 'resolved'},
+{source: '弗兰克·哈里斯', target: '萧伯纳', 'rela': '好友', type: 'resolved'},
+{source: '玛克西姆·高尔基', target: '萧伯纳', 'rela': '好友', type: 'resolved'},
+{source: '玛克西姆·高尔基', target: '列宁', 'rela': '好友', type: 'resolved'},
+{source: '冯真', target: '李琦', 'rela': '丈夫', type: 'resolved'},
+{source: '冯真', target: '冯乃超', 'rela': '父亲', type: 'resolved'},
+{source: '冯真', target: '李玄旭', 'rela': '学生', type: 'resolved'},
+{source: '李书城', target: '李声英', 'rela': '女儿', type: 'resolved'},
+{source: '李书城', target: '冯乃超', 'rela': '女婿', type: 'resolved'},
+{source: '李丹阳', target: '冯乃超', 'rela': '舅舅', type: 'resolved'},
+{source: '李丹阳', target: '翁新芝', 'rela': '队友', type: 'resolved'},
+{source: '李丹阳', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '李丹阳', target: '戴玉强', 'rela': '同门', type: 'resolved'},
+{source: '李丹阳', target: '宋祖英', 'rela': '同门', type: 'resolved'},
+{source: '李丹阳', target: '王丽达', 'rela': '同门', type: 'resolved'},
+{source: '孙福熙', target: '孙伏园', 'rela': '哥哥', type: 'resolved'},
+{source: '端木蕻良', target: '萧红', 'rela': '妻子', type: 'resolved'},
+{source: '萧军', target: '萧红', 'rela': '前妻', type: 'resolved'},
+{source: '许崇灏', target: '许崇清', 'rela': '弟弟', type: 'resolved'},
+{source: '朱光亚', target: '朱明远', 'rela': '儿子', type: 'resolved'},
+{source: '朱光亚', target: '许崇清', 'rela': '岳父', type: 'resolved'},
+{source: '朱光亚', target: '吴大猷', 'rela': '领导', type: 'resolved'},
+{source: '朱光亚', target: '赵忠尧', 'rela': '老师', type: 'resolved'},
+{source: '许崇智', target: '许崇清', 'rela': '堂弟', type: 'resolved'},
+{source: '许崇智', target: '许绍雄', 'rela': '侄子', type: 'resolved'},
+{source: '俞陛云', target: '俞平伯', 'rela': '儿子', type: 'resolved'},
+{source: '胡适', target: '江冬秀', 'rela': '妻子', type: 'resolved'},
+{source: '胡适', target: '胡思杜', 'rela': '儿子', type: 'resolved'},
+{source: '胡适', target: '胡祖望', 'rela': '儿子', type: 'resolved'},
+{source: '胡适', target: '韦莲司', 'rela': '前女友', type: 'resolved'},
+{source: '胡适', target: '曹诚英', 'rela': '前女友', type: 'resolved'},
+{source: '胡适', target: '胡传', 'rela': '父亲', type: 'resolved'},
+{source: '胡适', target: '冯顺弟', 'rela': '母亲', type: 'resolved'},
+{source: '胡适', target: '徐志摩', 'rela': '好友', type: 'resolved'},
+{source: '胡适', target: '梁实秋', 'rela': '好友', type: 'resolved'},
+{source: '胡适', target: '俞平伯', 'rela': '好友', type: 'resolved'},
+{source: '胡适', target: '陈独秀', 'rela': '好友', type: 'resolved'},
+{source: '胡适', target: '章士钊', 'rela': '好友', type: 'resolved'},
+{source: '胡适', target: '约翰·杜威', 'rela': '老师', type: 'resolved'},
+{source: '刘觉民', target: '刘田依', 'rela': '儿子', type: 'resolved'},
+{source: '刘觉民', target: '于右任', 'rela': '好友', type: 'resolved'},
+{source: '刘觉民', target: '樊钟秀', 'rela': '战友', type: 'resolved'},
+{source: '刘觉民', target: '胡景翼', 'rela': '战友', type: 'resolved'},
+{source: '刘觉民', target: '章太炎', 'rela': '战友', type: 'resolved'},
+{source: '刘觉民', target: '黄兴', 'rela': '战友', type: 'resolved'},
+{source: '刘觉民', target: '梁启超', 'rela': '老师', type: 'resolved'},
+{source: '方国瑜', target: '章太炎', 'rela': '老师', type: 'resolved'},
+{source: '方国瑜', target: '钱玄同', 'rela': '老师', type: 'resolved'},
+{source: '陈存仁', target: '丁福保', 'rela': '老师', type: 'resolved'},
+{source: '陈存仁', target: '章太炎', 'rela': '老师', type: 'resolved'},
+{source: '沈兼士', target: '沈尹默', 'rela': '哥哥', type: 'resolved'},
+{source: '沈兼士', target: '章太炎', 'rela': '老师', type: 'resolved'},
+{source: '吴承仕', target: '章太炎', 'rela': '老师', type: 'resolved'},
+{source: '黄侃', target: '龙榆生', 'rela': '学生', type: 'resolved'},
+{source: '黄侃', target: '章太炎', 'rela': '老师', type: 'resolved'},
+{source: '朱希祖', target: '罗香林', 'rela': '女婿', type: 'resolved'},
+{source: '朱希祖', target: '黄现璠', 'rela': '学生', type: 'resolved'},
+{source: '朱希祖', target: '章太炎', 'rela': '老师', type: 'resolved'},
+{source: '钱玄同', target: '钱三强', 'rela': '儿子', type: 'resolved'},
+{source: '钱玄同', target: '钱思进', 'rela': '孙子', type: 'resolved'},
+{source: '钱玄同', target: '何泽慧', 'rela': '儿媳', type: 'resolved'},
+{source: '钱玄同', target: '钱稻孙', 'rela': '侄子', type: 'resolved'},
+{source: '钱玄同', target: '黄现璠', 'rela': '学生', type: 'resolved'},
+{source: '钱玄同', target: '方国瑜', 'rela': '学生', type: 'resolved'},
+{source: '钱玄同', target: '丁声树', 'rela': '学生', type: 'resolved'},
+{source: '钱玄同', target: '章太炎', 'rela': '老师', type: 'resolved'},
+{source: '连横', target: '连震东', 'rela': '儿子', type: 'resolved'},
+{source: '连横', target: '林文月', 'rela': '外孙女', type: 'resolved'},
+{source: '连横', target: '连惠心', 'rela': '曾孙女', type: 'resolved'},
+{source: '连横', target: '连咏心', 'rela': '曾孙女', type: 'resolved'},
+{source: '胡问遂', target: '沈尹默', 'rela': '老师', type: 'resolved'},
+{source: '列宁', target: '娜杰日达·康斯坦丁诺夫娜·克鲁普斯卡娅', 'rela': '妻子', type: 'resolved'},
+{source: '列宁', target: '玛克西姆·高尔基', 'rela': '好友', type: 'resolved'},
+{source: '列宁', target: '列夫·达维多维奇·托洛茨基', 'rela': '战友', type: 'resolved'},
+{source: '李琦', target: '李舜琴', 'rela': '父亲', type: 'resolved'},
+{source: '李玄旭', target: '冯真', 'rela': '教练', type: 'resolved'},
+{source: '李声英', target: '李书城', 'rela': '父亲', type: 'resolved'},
+{source: '翁新芝', target: '李丹阳', 'rela': '队友', type: 'resolved'},
+{source: '翁新芝', target: '商瑞华', 'rela': '教练', type: 'resolved'},
+{source: '金铁霖', target: '马秋华', 'rela': '妻子', type: 'resolved'},
+{source: '金铁霖', target: '金圣权', 'rela': '儿子', type: 'resolved'},
+{source: '金铁霖', target: '李谷一', 'rela': '前妻', type: 'resolved'},
+{source: '金铁霖', target: '彭高平', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '张燕', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '宋飞', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '李丹阳', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '阿鲁阿卓', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '刘斌', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '董华', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '常思思', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '王丽达', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '吴碧霞', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '戴玉强', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '吕继宏', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '朱之文', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '祖海', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '阎维文', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '宋祖英', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '马晓梦', 'rela': '学生', type: 'resolved'},
+{source: '金铁霖', target: '李重光', 'rela': '老师', type: 'resolved'},
+{source: '金铁霖', target: '沈湘', 'rela': '老师', type: 'resolved'},
+{source: '戴玉强', target: '戴梓伊', 'rela': '女儿', type: 'resolved'},
+{source: '戴玉强', target: '满文军', 'rela': '好友', type: 'resolved'},
+{source: '戴玉强', target: '薛皓垠', 'rela': '学生', type: 'resolved'},
+{source: '戴玉强', target: '杨光', 'rela': '学生', type: 'resolved'},
+{source: '戴玉强', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '戴玉强', target: '李晖', 'rela': '同门', type: 'resolved'},
+{source: '戴玉强', target: '张也', 'rela': '同门', type: 'resolved'},
+{source: '戴玉强', target: '刘斌', 'rela': '同门', type: 'resolved'},
+{source: '戴玉强', target: '祖海', 'rela': '同门', type: 'resolved'},
+{source: '戴玉强', target: '李丹阳', 'rela': '同门', type: 'resolved'},
+{source: '戴玉强', target: '王丽达', 'rela': '同门', type: 'resolved'},
+{source: '戴玉强', target: '宋祖英', 'rela': '同门', type: 'resolved'},
+{source: '戴玉强', target: '吴碧霞', 'rela': '同门', type: 'resolved'},
+{source: '戴玉强', target: '吕继宏', 'rela': '同门', type: 'resolved'},
+{source: '戴玉强', target: '阎维文', 'rela': '同门', type: 'resolved'},
+{source: '宋祖英', target: '罗浩', 'rela': '丈夫', type: 'resolved'},
+{source: '宋祖英', target: '宋佳玲', 'rela': '妹妹', type: 'resolved'},
+{source: '宋祖英', target: '普拉西多·多明戈', 'rela': '搭档', type: 'resolved'},
+{source: '宋祖英', target: '徐沛东', 'rela': '搭档', type: 'resolved'},
+{source: '宋祖英', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '宋祖英', target: '郭淑珍', 'rela': '老师', type: 'resolved'},
+{source: '宋祖英', target: '李晖', 'rela': '师妹', type: 'resolved'},
+{source: '宋祖英', target: '张燕', 'rela': '同门', type: 'resolved'},
+{source: '宋祖英', target: '李丹阳', 'rela': '同门', type: 'resolved'},
+{source: '宋祖英', target: '张立萍', 'rela': '同门', type: 'resolved'},
+{source: '宋祖英', target: '戴玉强', 'rela': '同门', type: 'resolved'},
+{source: '宋祖英', target: '吴碧霞', 'rela': '同门', type: 'resolved'},
+{source: '宋祖英', target: '常思思', 'rela': '同门', type: 'resolved'},
+{source: '宋祖英', target: '王丽达', 'rela': '同门', type: 'resolved'},
+{source: '宋祖英', target: '祖海', 'rela': '同门', type: 'resolved'},
+{source: '王丽达', target: '汤子星', 'rela': '丈夫', type: 'resolved'},
+{source: '王丽达', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '王丽达', target: '张燕', 'rela': '同门', type: 'resolved'},
+{source: '王丽达', target: '李丹阳', 'rela': '同门', type: 'resolved'},
+{source: '王丽达', target: '戴玉强', 'rela': '同门', type: 'resolved'},
+{source: '王丽达', target: '吴碧霞', 'rela': '同门', type: 'resolved'},
+{source: '王丽达', target: '祖海', 'rela': '同门', type: 'resolved'},
+{source: '王丽达', target: '常思思', 'rela': '同门', type: 'resolved'},
+{source: '王丽达', target: '宋祖英', 'rela': '同门', type: 'resolved'},
+{source: '朱明远', target: '朱光亚', 'rela': '父亲', type: 'resolved'},
+{source: '吴大猷', target: '马大猷', 'rela': '学生', type: 'resolved'},
+{source: '吴大猷', target: '李远哲', 'rela': '学生', type: 'resolved'},
+{source: '吴大猷', target: '杨振宁', 'rela': '学生', type: 'resolved'},
+{source: '吴大猷', target: '李政道', 'rela': '学生', type: 'resolved'},
+{source: '吴大猷', target: '朱光亚', 'rela': '助理', type: 'resolved'},
+{source: '赵忠尧', target: '邓稼先', 'rela': '学生', type: 'resolved'},
+{source: '赵忠尧', target: '钱三强', 'rela': '学生', type: 'resolved'},
+{source: '赵忠尧', target: '朱光亚', 'rela': '学生', type: 'resolved'},
+{source: '赵忠尧', target: '唐孝威', 'rela': '学生', type: 'resolved'},
+{source: '赵忠尧', target: '周光召', 'rela': '学生', type: 'resolved'},
+{source: '赵忠尧', target: '王淦昌', 'rela': '学生', type: 'resolved'},
+{source: '赵忠尧', target: '彭桓武', 'rela': '学生', type: 'resolved'},
+{source: '赵忠尧', target: '叶企孙', 'rela': '老师', type: 'resolved'},
+{source: '赵忠尧', target: '罗伯特·安德鲁·密立根', 'rela': '老师', type: 'resolved'},
+{source: '许绍雄', target: '许崇智', 'rela': '叔叔', type: 'resolved'},
+{source: '许绍雄', target: '黄子华', 'rela': '搭档', type: 'resolved'},
+{source: '许绍雄', target: '郭明翔', 'rela': '搭档', type: 'resolved'},
+{source: '许绍雄', target: '罗嘉良', 'rela': '搭档', type: 'resolved'},
+{source: '江冬秀', target: '胡适', 'rela': '丈夫', type: 'resolved'},
+{source: '江冬秀', target: '胡思杜', 'rela': '儿子', type: 'resolved'},
+{source: '江冬秀', target: '胡祖望', 'rela': '儿子', type: 'resolved'},
+{source: '江冬秀', target: '胡传', 'rela': '公公', type: 'resolved'},
+{source: '江冬秀', target: '冯顺弟', 'rela': '婆婆', type: 'resolved'},
+{source: '胡思杜', target: '胡适', 'rela': '父亲', type: 'resolved'},
+{source: '胡思杜', target: '江冬秀', 'rela': '母亲', type: 'resolved'},
+{source: '胡祖望', target: '胡适', 'rela': '父亲', type: 'resolved'},
+{source: '胡祖望', target: '江冬秀', 'rela': '母亲', type: 'resolved'},
+{source: '韦莲司', target: '胡适', 'rela': '前男友', type: 'resolved'},
+{source: '曹诚英', target: '胡适', 'rela': '前男友', type: 'resolved'},
+{source: '胡传', target: '冯顺弟', 'rela': '妻子', type: 'resolved'},
+{source: '胡传', target: '胡适', 'rela': '儿子', type: 'resolved'},
+{source: '胡传', target: '江冬秀', 'rela': '儿媳', type: 'resolved'},
+{source: '冯顺弟', target: '胡传', 'rela': '丈夫', type: 'resolved'},
+{source: '冯顺弟', target: '胡适', 'rela': '儿子', type: 'resolved'},
+{source: '冯顺弟', target: '江冬秀', 'rela': '儿媳', type: 'resolved'},
+{source: '徐志摩', target: '徐积锴', 'rela': '儿子', type: 'resolved'},
+{source: '徐志摩', target: '张幼仪', 'rela': '前妻', type: 'resolved'},
+{source: '徐志摩', target: '徐申如', 'rela': '父亲', type: 'resolved'},
+{source: '徐志摩', target: '金庸', 'rela': '表弟', type: 'resolved'},
+{source: '徐志摩', target: '章士钊', 'rela': '好友', type: 'resolved'},
+{source: '徐志摩', target: '胡适', 'rela': '好友', type: 'resolved'},
+{source: '徐志摩', target: '卞之琳', 'rela': '学生', type: 'resolved'},
+{source: '徐志摩', target: '梁启超', 'rela': '老师', type: 'resolved'},
+{source: '徐志摩', target: '徐中舒', 'rela': '同门', type: 'resolved'},
+{source: '梁实秋', target: '韩菁清', 'rela': '妻子', type: 'resolved'},
+{source: '梁实秋', target: '程季淑', 'rela': '妻子', type: 'resolved'},
+{source: '梁实秋', target: '梁文茜', 'rela': '女儿', type: 'resolved'},
+{source: '梁实秋', target: '胡适', 'rela': '好友', type: 'resolved'},
+{source: '梁实秋', target: '郑振铎', 'rela': '好友', type: 'resolved'},
+{source: '陈独秀', target: '潘兰珍', 'rela': '妻子', type: 'resolved'},
+{source: '陈独秀', target: '陈松年', 'rela': '儿子', type: 'resolved'},
+{source: '陈独秀', target: '陈乔年', 'rela': '儿子', type: 'resolved'},
+{source: '陈独秀', target: '陈延年', 'rela': '儿子', type: 'resolved'},
+{source: '陈独秀', target: '高君曼', 'rela': '前妻', type: 'resolved'},
+{source: '陈独秀', target: '胡适', 'rela': '好友', type: 'resolved'},
+{source: '章士钊', target: '吴弱男', 'rela': '妻子', type: 'resolved'},
+{source: '章士钊', target: '章可', 'rela': '儿子', type: 'resolved'},
+{source: '章士钊', target: '吴保初', 'rela': '岳父', type: 'resolved'},
+{source: '章士钊', target: '章含之', 'rela': '养女', type: 'resolved'},
+{source: '章士钊', target: '徐志摩', 'rela': '好友', type: 'resolved'},
+{source: '章士钊', target: '胡适', 'rela': '好友', type: 'resolved'},
+{source: '刘田依', target: '刘觉民', 'rela': '父亲', type: 'resolved'},
+{source: '刘田依', target: '李玉', 'rela': '学生', type: 'resolved'},
+{source: '刘田依', target: '刘北茂', 'rela': '老师', type: 'resolved'},
+{source: '刘田依', target: '李振九', 'rela': '老师', type: 'resolved'},
+{source: '刘田依', target: '汪立三', 'rela': '老师', type: 'resolved'},
+{source: '刘田依', target: '黄宾虹', 'rela': '老师', type: 'resolved'},
+{source: '刘田依', target: '钱瘦铁', 'rela': '老师', type: 'resolved'},
+{source: '于右任', target: '于望德', 'rela': '儿子', type: 'resolved'},
+{source: '于右任', target: '于彭', 'rela': '儿子', type: 'resolved'},
+{source: '于右任', target: '刘觉民', 'rela': '好友', type: 'resolved'},
+{source: '樊钟秀', target: '刘觉民', 'rela': '战友', type: 'resolved'},
+{source: '胡景翼', target: '刘觉民', 'rela': '战友', type: 'resolved'},
+{source: '黄兴', target: '廖淡如', 'rela': '妻子', type: 'resolved'},
+{source: '黄兴', target: '徐宗汉', 'rela': '妻子', type: 'resolved'},
+{source: '黄兴', target: '黄乃', 'rela': '儿子', type: 'resolved'},
+{source: '黄兴', target: '黄筱村', 'rela': '父亲', type: 'resolved'},
+{source: '黄兴', target: '黄伟民', 'rela': '孙子', type: 'resolved'},
+{source: '黄兴', target: '程潜', 'rela': '亲家公', type: 'resolved'},
+{source: '黄兴', target: '刘觉民', 'rela': '战友', type: 'resolved'},
+{source: '黄兴', target: '胡瑛', 'rela': '学生', type: 'resolved'},
+{source: '梁启超', target: '李蕙仙', 'rela': '妻子', type: 'resolved'},
+{source: '梁启超', target: '王桂荃', 'rela': '妻子', type: 'resolved'},
+{source: '梁启超', target: '梁思宁', 'rela': '女儿', type: 'resolved'},
+{source: '梁启超', target: '梁思庄', 'rela': '女儿', type: 'resolved'},
+{source: '梁启超', target: '梁思懿', 'rela': '女儿', type: 'resolved'},
+{source: '梁启超', target: '梁思顺', 'rela': '女儿', type: 'resolved'},
+{source: '梁启超', target: '梁思成', 'rela': '儿子', type: 'resolved'},
+{source: '梁启超', target: '梁思达', 'rela': '儿子', type: 'resolved'},
+{source: '梁启超', target: '梁思永', 'rela': '儿子', type: 'resolved'},
+{source: '梁启超', target: '梁思礼', 'rela': '儿子', type: 'resolved'},
+{source: '梁启超', target: '梁思忠', 'rela': '儿子', type: 'resolved'},
+{source: '梁启超', target: '梁启雄', 'rela': '弟弟', type: 'resolved'},
+{source: '梁启超', target: '李朝仪', 'rela': '岳父', type: 'resolved'},
+{source: '梁启超', target: '梁从诫', 'rela': '孙子', type: 'resolved'},
+{source: '梁启超', target: '梁再冰', 'rela': '孙女', type: 'resolved'},
+{source: '梁启超', target: '林洙', 'rela': '儿媳', type: 'resolved'},
+{source: '梁启超', target: '林徽因', 'rela': '儿媳', type: 'resolved'},
+{source: '梁启超', target: '杨度', 'rela': '好友', type: 'resolved'},
+{source: '梁启超', target: '蔡锷', 'rela': '学生', type: 'resolved'},
+{source: '梁启超', target: '徐志摩', 'rela': '学生', type: 'resolved'},
+{source: '梁启超', target: '蔡尚思', 'rela': '学生', type: 'resolved'},
+{source: '梁启超', target: '刘觉民', 'rela': '学生', type: 'resolved'},
+{source: '梁启超', target: '吴其昌', 'rela': '学生', type: 'resolved'},
+{source: '梁启超', target: '蒋百里', 'rela': '学生', type: 'resolved'},
+{source: '梁启超', target: '王赓', 'rela': '学生', type: 'resolved'},
+{source: '梁启超', target: '徐中舒', 'rela': '学生', type: 'resolved'},
+{source: '丁福保', target: '陈存仁', 'rela': '学生', type: 'resolved'},
+{source: '龙榆生', target: '龙赓言', 'rela': '父亲', type: 'resolved'},
+{source: '龙榆生', target: '朱祖谋', 'rela': '老师', type: 'resolved'},
+{source: '龙榆生', target: '黄侃', 'rela': '老师', type: 'resolved'},
+{source: '罗香林', target: '罗幼山', 'rela': '父亲', type: 'resolved'},
+{source: '罗香林', target: '朱希祖', 'rela': '岳父', type: 'resolved'},
+{source: '黄现璠', target: '朱希祖', 'rela': '老师', type: 'resolved'},
+{source: '黄现璠', target: '钱玄同', 'rela': '老师', type: 'resolved'},
+{source: '黄现璠', target: '萧一山', 'rela': '师友', type: 'resolved'},
+{source: '钱三强', target: '何泽慧', 'rela': '妻子', type: 'resolved'},
+{source: '钱三强', target: '钱民协', 'rela': '女儿', type: 'resolved'},
+{source: '钱三强', target: '钱思进', 'rela': '儿子', type: 'resolved'},
+{source: '钱三强', target: '钱玄同', 'rela': '父亲', type: 'resolved'},
+{source: '钱三强', target: '何澄', 'rela': '岳父', type: 'resolved'},
+{source: '钱三强', target: '钱稻孙', 'rela': '堂哥', type: 'resolved'},
+{source: '钱三强', target: '赵忠尧', 'rela': '老师', type: 'resolved'},
+{source: '钱思进', target: '钱三强', 'rela': '父亲', type: 'resolved'},
+{source: '钱思进', target: '何泽慧', 'rela': '母亲', type: 'resolved'},
+{source: '钱思进', target: '钱玄同', 'rela': '爷爷', type: 'resolved'},
+{source: '何泽慧', target: '钱三强', 'rela': '丈夫', type: 'resolved'},
+{source: '何泽慧', target: '钱民协', 'rela': '女儿', type: 'resolved'},
+{source: '何泽慧', target: '钱思进', 'rela': '儿子', type: 'resolved'},
+{source: '何泽慧', target: '何澄', 'rela': '父亲', type: 'resolved'},
+{source: '何泽慧', target: '何怡贞', 'rela': '姐姐', type: 'resolved'},
+{source: '何泽慧', target: '钱玄同', 'rela': '公公', type: 'resolved'},
+{source: '何泽慧', target: '葛庭燧', 'rela': '姐夫', type: 'resolved'},
+{source: '钱稻孙', target: '钱恂', 'rela': '父亲', type: 'resolved'},
+{source: '钱稻孙', target: '单士厘', 'rela': '母亲', type: 'resolved'},
+{source: '钱稻孙', target: '钱三强', 'rela': '堂弟', type: 'resolved'},
+{source: '钱稻孙', target: '钱仲联', 'rela': '堂弟', type: 'resolved'},
+{source: '钱稻孙', target: '钱玄同', 'rela': '叔叔', type: 'resolved'},
+{source: '丁声树', target: '钱玄同', 'rela': '老师', type: 'resolved'},
+{source: '连震东', target: '赵兰坤', 'rela': '妻子', type: 'resolved'},
+{source: '连震东', target: '连横', 'rela': '父亲', type: 'resolved'},
+{source: '连震东', target: '连胜武', 'rela': '孙子', type: 'resolved'},
+{source: '连震东', target: '连惠心', 'rela': '孙女', type: 'resolved'},
+{source: '连震东', target: '连咏心', 'rela': '孙女', type: 'resolved'},
+{source: '连震东', target: '连方瑀', 'rela': '儿媳', type: 'resolved'},
+{source: '连惠心', target: '连方瑀', 'rela': '母亲', type: 'resolved'},
+{source: '连惠心', target: '连胜武', 'rela': '弟弟', type: 'resolved'},
+{source: '连惠心', target: '连咏心', 'rela': '妹妹', type: 'resolved'},
+{source: '连惠心', target: '连横', 'rela': '曾祖父', type: 'resolved'},
+{source: '连惠心', target: '连震东', 'rela': '爷爷', type: 'resolved'},
+{source: '连惠心', target: '赵兰坤', 'rela': '奶奶', type: 'resolved'},
+{source: '连惠心', target: '蔡依珊', 'rela': '弟媳', type: 'resolved'},
+{source: '连惠心', target: '连定捷', 'rela': '侄子', type: 'resolved'},
+{source: '连咏心', target: '连方瑀', 'rela': '母亲', type: 'resolved'},
+{source: '连咏心', target: '连胜武', 'rela': '哥哥', type: 'resolved'},
+{source: '连咏心', target: '连惠心', 'rela': '姐姐', type: 'resolved'},
+{source: '连咏心', target: '连横', 'rela': '曾祖父', type: 'resolved'},
+{source: '连咏心', target: '连震东', 'rela': '爷爷', type: 'resolved'},
+{source: '连咏心', target: '赵兰坤', 'rela': '奶奶', type: 'resolved'},
+{source: '连咏心', target: '蔡依珊', 'rela': '嫂子', type: 'resolved'},
+{source: '连咏心', target: '连定捷', 'rela': '侄子', type: 'resolved'},
+{source: '娜杰日达·康斯坦丁诺夫娜·克鲁普斯卡娅', target: '列宁', 'rela': '丈夫', type: 'resolved'},
+{source: '列夫·达维多维奇·托洛茨基', target: '列宁', 'rela': '战友', type: 'resolved'},
+{source: '李舜琴', target: '李琦', 'rela': '儿子', type: 'resolved'},
+{source: '李丹阳', target: '周高萍', 'rela': '队友', type: 'resolved'},
+{source: '李丹阳', target: '翁新芝', 'rela': '队友', type: 'resolved'},
+{source: '商瑞华', target: '刘爱玲', 'rela': '学生', type: 'resolved'},
+{source: '商瑞华', target: '刘华娜', 'rela': '学生', type: 'resolved'},
+{source: '商瑞华', target: '韩端', 'rela': '学生', type: 'resolved'},
+{source: '商瑞华', target: '翁新芝', 'rela': '学生', type: 'resolved'},
+{source: '马秋华', target: '金铁霖', 'rela': '丈夫', type: 'resolved'},
+{source: '马秋华', target: '金圣权', 'rela': '儿子', type: 'resolved'},
+{source: '马秋华', target: '曹芙嘉', 'rela': '学生', type: 'resolved'},
+{source: '金圣权', target: '金铁霖', 'rela': '父亲', type: 'resolved'},
+{source: '金圣权', target: '马秋华', 'rela': '母亲', type: 'resolved'},
+{source: '彭高平', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '彭高平', target: '孟玲', 'rela': '老师', type: 'resolved'},
+{source: '张燕', target: '陈思思', 'rela': '搭档', type: 'resolved'},
+{source: '张燕', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '张燕', target: '宋祖英', 'rela': '同门', type: 'resolved'},
+{source: '张燕', target: '王丽达', 'rela': '同门', type: 'resolved'},
+{source: '张燕', target: '祖海', 'rela': '同门', type: 'resolved'},
+{source: '宋飞', target: '高志鹏', 'rela': '学生', type: 'resolved'},
+{source: '宋飞', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '宋飞', target: '宋国生', 'rela': '老师', type: 'resolved'},
+{source: '阿鲁阿卓', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '刘斌', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '刘斌', target: '高世寿', 'rela': '老师', type: 'resolved'},
+{source: '刘斌', target: '戴玉强', 'rela': '同门', type: 'resolved'},
+{source: '刘斌', target: '吕继宏', 'rela': '同门', type: 'resolved'},
+{source: '董华', target: '姚贝娜', 'rela': '学生', type: 'resolved'},
+{source: '董华', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '常思思', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '常思思', target: '宋祖英', 'rela': '同门', type: 'resolved'},
+{source: '常思思', target: '王丽达', 'rela': '同门', type: 'resolved'},
+{source: '吴碧霞', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '吴碧霞', target: '郭淑珍', 'rela': '老师', type: 'resolved'},
+{source: '吴碧霞', target: '邹文琴', 'rela': '老师', type: 'resolved'},
+{source: '吴碧霞', target: '吕继宏', 'rela': '同门', type: 'resolved'},
+{source: '吴碧霞', target: '戴玉强', 'rela': '同门', type: 'resolved'},
+{source: '吴碧霞', target: '宋祖英', 'rela': '同门', type: 'resolved'},
+{source: '吴碧霞', target: '王丽达', 'rela': '同门', type: 'resolved'},
+{source: '吕继宏', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '吕继宏', target: '吴碧霞', 'rela': '同门', type: 'resolved'},
+{source: '吕继宏', target: '刘斌', 'rela': '同门', type: 'resolved'},
+{source: '吕继宏', target: '戴玉强', 'rela': '同门', type: 'resolved'},
+{source: '朱之文', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '朱之文', target: '于文华', 'rela': '老师', type: 'resolved'},
+{source: '祖海', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '祖海', target: '张燕', 'rela': '同门', type: 'resolved'},
+{source: '祖海', target: '戴玉强', 'rela': '同门', type: 'resolved'},
+{source: '祖海', target: '王丽达', 'rela': '同门', type: 'resolved'},
+{source: '祖海', target: '宋祖英', 'rela': '同门', type: 'resolved'},
+{source: '阎维文', target: '刘卫星', 'rela': '妻子', type: 'resolved'},
+{source: '阎维文', target: '阎晶晶', 'rela': '女儿', type: 'resolved'},
+{source: '阎维文', target: '李禾禾', 'rela': '女婿', type: 'resolved'},
+{source: '阎维文', target: '秦小梅', 'rela': '亲家母', type: 'resolved'},
+{source: '阎维文', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '阎维文', target: '李晖', 'rela': '师妹', type: 'resolved'},
+{source: '阎维文', target: '戴玉强', 'rela': '同门', type: 'resolved'},
+{source: '马晓梦', target: '金铁霖', 'rela': '老师', type: 'resolved'},
+{source: '李重光', target: '金铁霖', 'rela': '学生', type: 'resolved'},
+{source: '李重光', target: '施万春', 'rela': '学生', type: 'resolved'},
+{source: '李重光', target: '刘诗昆', 'rela': '学生', type: 'resolved'},
+{source: '李重光', target: '盛中国', 'rela': '学生', type: 'resolved'},
+{source: '沈湘', target: '金铁霖', 'rela': '学生', type: 'resolved'},
+{source: '沈湘', target: '范竞马', 'rela': '学生', type: 'resolved'},
+{source: '沈湘', target: '殷秀梅', 'rela': '学生', type: 'resolved'},
+{source: '沈湘', target: '关牧村', 'rela': '学生', type: 'resolved'},
+{source: '沈湘', target: '周小燕', 'rela': '学生', type: 'resolved'},
+{source: '沈湘', target: '黑海涛', 'rela': '学生', type: 'resolved'},
+{source: '沈湘', target: '程志', 'rela': '学生', type: 'resolved'},
+{source: '沈湘', target: '郭淑珍', 'rela': '学生', type: 'resolved'},
+{source: '沈湘', target: '孟贵彬', 'rela': '学生', type: 'resolved'},
+{source: '沈湘', target: '迪里拜尔', 'rela': '学生', type: 'resolved'},
+{source: '沈湘', target: '梁宁', 'rela': '学生', type: 'resolved'},
+{source: '戴梓伊', target: '戴玉强', 'rela': '父亲', type: 'resolved'},
+{source: '满文军', target: '李俐', 'rela': '前妻', type: 'resolved'},
+{source: '满文军', target: '高晓莹', 'rela': '前妻', type: 'resolved'},
+{source: '满文军', target: '盖丽丽', 'rela': '好友', type: 'resolved'},
+{source: '满文军', target: '黄征', 'rela': '好友', type: 'resolved'},
+{source: '满文军', target: '孙楠', 'rela': '好友', type: 'resolved'},
+{source: '满文军', target: '戴玉强', 'rela': '好友', type: 'resolved'},
+{source: '满文军', target: '买红妹', 'rela': '好友', type: 'resolved'},
+{source: '满文军', target: '宋柯', 'rela': '领导', type: 'resolved'},
+{source: '薛皓垠', target: '戴玉强', 'rela': '老师', type: 'resolved'},
+{source: '李晖', target: '谭晶', 'rela': '好友', type: 'resolved'},
+{source: '李晖', target: '朱军', 'rela': '好友', type: 'resolved'},
+{source: '李晖', target: '阎维文', 'rela': '师兄', type: 'resolved'},
+{source: '李晖', target: '宋祖英', 'rela': '师姐', type: 'resolved'},
+{source: '李晖', target: '戴玉强', 'rela': '同门', type: 'resolved'},
+{source: '张也', target: '戴玉强', 'rela': '同门', type: 'resolved'},
+{source: '罗浩', target: '宋祖英', 'rela': '妻子', type: 'resolved'},
+{source: '宋佳玲', target: '宋祖英', 'rela': '姐姐', type: 'resolved'},
+{source: '普拉西多·多明戈', target: '鲁契亚诺·帕瓦罗蒂', 'rela': '搭档', type: 'resolved'},
+{source: '普拉西多·多明戈', target: '约翰·丹佛', 'rela': '搭档', type: 'resolved'},
+{source: '普拉西多·多明戈', target: '何塞·卡雷拉斯', 'rela': '搭档', type: 'resolved'},
+{source: '普拉西多·多明戈', target: '宋祖英', 'rela': '搭档', type: 'resolved'},
+{source: '普拉西多·多明戈', target: '里恰蕾莉', 'rela': '合作人', type: 'resolved'},
+{source: '普拉西多·多明戈', target: '廖昌永', 'rela': '学生', type: 'resolved'},
+{source: '徐沛东', target: '陈道明', 'rela': '好友', type: 'resolved'},
+{source: '徐沛东', target: '范琳琳', 'rela': '搭档', type: 'resolved'},
+{source: '徐沛东', target: '宋祖英', 'rela': '搭档', type: 'resolved'},
+{source: '徐沛东', target: '杜鸣心', 'rela': '老师', type: 'resolved'},
+{source: '郭淑珍', target: '幺红', 'rela': '学生', type: 'resolved'},
+{source: '郭淑珍', target: '余庆海', 'rela': '学生', type: 'resolved'},
+{source: '郭淑珍', target: '张立萍', 'rela': '学生', type: 'resolved'},
+{source: '郭淑珍', target: '邓韵', 'rela': '学生', type: 'resolved'},
+{source: '郭淑珍', target: '孙砾', 'rela': '学生', type: 'resolved'},
+{source: '郭淑珍', target: '吴碧霞', 'rela': '学生', type: 'resolved'},
+{source: '郭淑珍', target: '韩芝萍', 'rela': '学生', type: 'resolved'},
+{source: '郭淑珍', target: '柯绿娃', 'rela': '学生', type: 'resolved'},
+{source: '郭淑珍', target: '孟玲', 'rela': '学生', type: 'resolved'},
+{source: '郭淑珍', target: '宋祖英', 'rela': '学生', type: 'resolved'},
+{source: '郭淑珍', target: '张暴默', 'rela': '学生', type: 'resolved'},
+{source: '郭淑珍', target: '王秀芬', 'rela': '学生', type: 'resolved'},
+{source: '郭淑珍', target: '孙媛媛', 'rela': '学生', type: 'resolved'},
+{source: '郭淑珍', target: '沈湘', 'rela': '老师', type: 'resolved'},
+{source: '郭淑珍', target: '关牧村', 'rela': '同门', type: 'resolved'},
+{source: '张立萍', target: '郭淑珍', 'rela': '老师', type: 'resolved'},
+{source: '张立萍', target: '宋祖英', 'rela': '同门', type: 'resolved'},
+{source: '汤子星', target: '王丽达', 'rela': '妻子', type: 'resolved'},
+{source: '马大猷', target: '叶企孙', 'rela': '老师', type: 'resolved'},
+{source: '马大猷', target: '江泽涵', 'rela': '老师', type: 'resolved'},
+{source: '马大猷', target: '任之恭', 'rela': '老师', type: 'resolved'},
+{source: '马大猷', target: '萨本栋', 'rela': '老师', type: 'resolved'},
+{source: '马大猷', target: '吴大猷', 'rela': '老师', type: 'resolved'},
+{source: '李远哲', target: '吴大猷', 'rela': '老师', type: 'resolved'},
+{source: '杨振宁', target: '翁帆', 'rela': '妻子', type: 'resolved'},
+{source: '杨振宁', target: '杜致礼', 'rela': '前妻', type: 'resolved'},
+{source: '杨振宁', target: '杨武之', 'rela': '父亲', type: 'resolved'},
+{source: '杨振宁', target: '杨振汉', 'rela': '弟弟', type: 'resolved'},
+{source: '杨振宁', target: '翁云光', 'rela': '岳父', type: 'resolved'},
+{source: '杨振宁', target: '杜聿明', 'rela': '岳父', type: 'resolved'},
+{source: '杨振宁', target: '曹秀清', 'rela': '岳母', type: 'resolved'},
+{source: '杨振宁', target: '陈省身', 'rela': '好友', type: 'resolved'},
+{source: '杨振宁', target: '吴大峻', 'rela': '学生', type: 'resolved'},
+{source: '杨振宁', target: '罗广斌', 'rela': '学生', type: 'resolved'},
+{source: '杨振宁', target: '李真', 'rela': '学生', type: 'resolved'},
+{source: '杨振宁', target: '吴大猷', 'rela': '老师', type: 'resolved'},
+{source: '杨振宁', target: '黄昆', 'rela': '同学', type: 'resolved'},
+{source: '李政道', target: '秦惠箬', 'rela': '妻子', type: 'resolved'},
+{source: '李政道', target: '李中清', 'rela': '儿子', type: 'resolved'},
+{source: '李政道', target: '吴瑞', 'rela': '学生', type: 'resolved'},
+{source: '李政道', target: '束星北', 'rela': '老师', type: 'resolved'},
+{source: '李政道', target: '吴大猷', 'rela': '老师', type: 'resolved'},
+{source: '邓稼先', target: '许鹿希', 'rela': '妻子', type: 'resolved'},
+{source: '邓稼先', target: '邓志平', 'rela': '儿子', type: 'resolved'},
+{source: '邓稼先', target: '邓以蛰', 'rela': '父亲', type: 'resolved'},
+{source: '邓稼先', target: '许德珩', 'rela': '岳父', type: 'resolved'},
+{source: '邓稼先', target: '劳君展', 'rela': '岳母', type: 'resolved'},
+{source: '邓稼先', target: '郑华炽', 'rela': '姐夫', type: 'resolved'},
+{source: '邓稼先', target: '赵忠尧', 'rela': '老师', type: 'resolved'},
+];
+
+var nodes = {};
+
+links.forEach(function(link)
+{
+  link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+  link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
+});
+
+var width = 3000, height = 3000;
+
+var force = d3.layout.force()
+    .nodes(d3.values(nodes))
+    .links(links)
+    .size([width, height])
+    .linkDistance(100)
+    .charge(-1500)
+    .on("tick", tick)
+    .start();
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var marker=
+    svg.append("marker")
+    .attr("id", "resolved")
+    .attr("markerUnits","userSpaceOnUse")
+    .attr("viewBox", "0 -5 10 10")
+    .attr("refX",32)
+    .attr("refY", -1)
+    .attr("markerWidth", 12)
+    .attr("markerHeight", 12)
+    .attr("orient", "auto")
+    .attr("stroke-width",2)
+    .append("path")
+    .attr("d", "M0,-5L10,0L0,5")
+    .attr('fill','#000000');
+
+var edges_line = svg.selectAll(".edgepath")
+    .data(force.links())
+    .enter()
+    .append("path")
+    .attr({
+          'd': function(d) {return 'M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y},
+          'class':'edgepath',
+          'id':function(d,i) {return 'edgepath'+i;}})
+    .style("stroke",function(d){
+         var lineColor;
+		 lineColor="#B43232";
+         return lineColor;
+     })
+    .style("pointer-events", "none")
+    .style("stroke-width",0.5)
+    .attr("marker-end", "url(#resolved)" );
+
+var edges_text = svg.append("g").selectAll(".edgelabel")
+.data(force.links())
+.enter()
+.append("text")
+.style("pointer-events", "none")
+.attr({  'class':'edgelabel',
+               'id':function(d,i){return 'edgepath'+i;},
+               'dx':80,
+               'dy':0
+               });
+
+edges_text.append('textPath')
+.attr('xlink:href',function(d,i) {return '#edgepath'+i})
+.style("pointer-events", "none")
+.text(function(d){return d.rela;});
+
+var circle = svg.append("g").selectAll("circle")
+    .data(force.nodes())
+    .enter().append("circle")
+    .style("fill",function(node){
+        var color;
+        var link=links[node.index];
+		color="#F9EBF9";
+        return color;
+    })
+    .style('stroke',function(node){ 
+        var color;
+        var link=links[node.index];
+		color="#A254A2";
+        return color;
+    })
+    .attr("r", 28)
+    .on("click",function(node)
+	{
+        edges_line.style("stroke-width",function(line){
+            console.log(line);
+            if(line.source.name==node.name || line.target.name==node.name){
+                return 4;
+            }else{
+                return 0.5;
+            }
+        });
+    })
+    .call(force.drag);
+
+var text = svg.append("g").selectAll("text")
+    .data(force.nodes())
+    .enter()
+    .append("text")
+    .attr("dy", ".35em")  
+    .attr("text-anchor", "middle")
+    .style('fill',function(node){
+        var color;
+        var link=links[node.index];
+		color="#A254A2";
+        return color;
+    }).attr('x',function(d){
+        var re_en = /[a-zA-Z]+/g;
+        if(d.name.match(re_en)){
+             d3.select(this).append('tspan')
+             .attr('x',0)
+             .attr('y',2)
+             .text(function(){return d.name;});
+        }
+        
+        else if(d.name.length<=4){
+             d3.select(this).append('tspan')
+            .attr('x',0)
+            .attr('y',2)
+            .text(function(){return d.name;});
+        }else{
+            var top=d.name.substring(0,4);
+            var bot=d.name.substring(4,d.name.length);
+
+            d3.select(this).text(function(){return '';});
+
+            d3.select(this).append('tspan')
+                .attr('x',0)
+                .attr('y',-7)
+                .text(function(){return top;});
+
+            d3.select(this).append('tspan')
+                .attr('x',0)
+                .attr('y',10)
+                .text(function(){return bot;});
+        }
+    });
+
+function tick() {
+  circle.attr("transform", transform1);
+  text.attr("transform", transform2);
+
+  edges_line.attr('d', function(d) { 
+      var path='M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y;
+      return path;
+  });  
+    
+  edges_text.attr('transform',function(d,i){
+        if (d.target.x<d.source.x){
+            bbox = this.getBBox();
+            rx = bbox.x+bbox.width/2;
+            ry = bbox.y+bbox.height/2;
+            return 'rotate(180 '+rx+' '+ry+')';
+        }
+        else {
+            return 'rotate(0)';
+        }
+   });
+}
+
+function linkArc(d) {
+  return 'M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y
+}
+
+function transform1(d) {
+  return "translate(" + d.x + "," + d.y + ")";
+}
+function transform2(d) {
+      return "translate(" + (d.x) + "," + d.y + ")";
+}
+
+</script>
