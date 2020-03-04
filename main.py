@@ -16,8 +16,9 @@ global_person_dict = {}  # 全局 person对象 词典。 {name: person}
 
 crawled_person_file = 'persons.txt'  # 爬取的人物数据文件名
 crawled_relation_file = 'relations.txt'  # 关系数据文件名
-cleaned_person_file = 'cleaned_person_file.txt'  # 清洗后的人物数据文件
-cleaned_relation_file = 'cleaned_relation_file.txt'  # 清洗后的关系数据文件
+
+cleaned_person_file = 'cleaned_person_file.txt'  # 清洗后的人物数据文件；
+cleaned_relation_file = 'cleaned_relation_file.txt'  # 清洗后的关系数据文件；
 
 PERSON_NUM_TO_CRAWL = 50000  # 爬取的人物上限 
 
@@ -318,11 +319,17 @@ def BFSsearch(source, target):
 		s = " ".join(["{}:{}".format(x.name, x.id) for x in source_person])
 		print(s)
 		return
+	elif len(source_person) == 0:
+		print("网络图中 没有{}".format(source))
+		return
 	else:
 		source_person = source_person[0]
 	if len(target_person) > 1:
 		t = " ".join(["{}:{}".format(x.name, x.id) for x in target_person])
 		print(t)
+		return
+	elif len(target_person) == 0:
+		print("网络图中 没有{}".format(target))
 		return
 	else:
 		target_person = target_person[0]
@@ -367,8 +374,8 @@ def BFSsearch(source, target):
 	ret.reverse()
 	return ret
 		
-def Search(source, target):
-	init(cleaned_person_file)
+def Search(database, source, target):
+	init(database)
 	print("Searching ...")
 	result = BFSsearch(source, target)
 	if result is not None:  # 搜索人物有重名
@@ -379,6 +386,7 @@ def Search(source, target):
 if __name__ == '__main__':
 	'''
 	运行说明，前三步只需运行一遍。后面即可进行搜索。
+	relation_file 这里没有用到
 
 	1. download_data()			#爬取数据，需要制定一个start_url，默认为鲁迅先生。爬取的人物数据默认保存在crawled_person_file中。为方便起见，关系数据单独拎出来一份，保存在crawled_relation_file中
 	2. clean_data(crawled_person_file, cleaned_person_file)  # 清洗人物数据
@@ -386,7 +394,7 @@ if __name__ == '__main__':
 	4. Search('鲁迅', '钱玄同')
 	'''
 
-	# download_data()
+	# download_data(r'https://baike.baidu.com/item/%E6%9B%B9%E6%93%8D/6772')
 	# clean_data(crawled_person_file, cleaned_person_file)
 	# clean_relation_data(cleaned_person_file, crawled_relation_file, cleaned_relation_file)
-	Search('鲁迅', '章子怡')
+	Search('cleaned_person_file_鲁迅.txt', '鲁迅', '杨幂')
