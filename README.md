@@ -34,7 +34,7 @@ Milgram的实验内容：
 这里就使用百度百科上的人物关系数据。
 鲁迅先生说过，“单是说不行，要紧的是做。”
 这里以鲁迅先生为例：
-![百度百科-鲁迅](https://lhyxx.top/2020/03/04/%E5%90%8D%E4%BA%BA%E5%85%B3%E7%B3%BB%E5%9B%BE%E9%89%B4-%E5%B0%8F%E4%B8%96%E7%95%8C%E7%90%86%E8%AE%BA/%E7%99%BE%E5%BA%A6%E7%99%BE%E7%A7%91-%E9%B2%81%E8%BF%85.PNG "百度百科--鲁迅")
+![百度百科-鲁迅](https://github.com/LHYxx/LHYxx.github.io/blob/master/2020/03/04/%E5%90%8D%E4%BA%BA%E5%85%B3%E7%B3%BB%E5%9B%BE%E9%89%B4-%E5%B0%8F%E4%B8%96%E7%95%8C%E7%90%86%E8%AE%BA/%E7%99%BE%E5%BA%A6%E7%99%BE%E7%A7%91-%E9%B2%81%E8%BF%85.PNG "百度百科-鲁迅")
 百度百科上每个人物都有其人物关系。
 编写爬虫，从鲁迅先生开始，沿着其人物关系链开始扒取数据。
 
@@ -42,8 +42,8 @@ Milgram的实验内容：
 
 得到所有人物关系之后，做一个简单的可视化，由于人数太多，暂时不知道用什么方法能够清晰地展示那么大的图网络，这里只可视化了一种一小小小部分。
 ![关系1](https://github.com/LHYxx/LHYxx.github.io/blob/master/2020/03/04/%E5%90%8D%E4%BA%BA%E5%85%B3%E7%B3%BB%E5%9B%BE%E9%89%B4-%E5%B0%8F%E4%B8%96%E7%95%8C%E7%90%86%E8%AE%BA/%E5%85%B3%E7%B3%BB1.PNG "关系1")
-![关系2](https://lhyxx.top/2020/03/04/%E5%90%8D%E4%BA%BA%E5%85%B3%E7%B3%BB%E5%9B%BE%E9%89%B4-%E5%B0%8F%E4%B8%96%E7%95%8C%E7%90%86%E8%AE%BA/%E5%85%B3%E7%B3%BB2.PNG "关系2")
-![关系3](https://lhyxx.top/2020/03/04/%E5%90%8D%E4%BA%BA%E5%85%B3%E7%B3%BB%E5%9B%BE%E9%89%B4-%E5%B0%8F%E4%B8%96%E7%95%8C%E7%90%86%E8%AE%BA/%E5%85%B3%E7%B3%BB3.PNG "关系3")
+![关系2](https://github.com/LHYxx/LHYxx.github.io/blob/master/2020/03/04/%E5%90%8D%E4%BA%BA%E5%85%B3%E7%B3%BB%E5%9B%BE%E9%89%B4-%E5%B0%8F%E4%B8%96%E7%95%8C%E7%90%86%E8%AE%BA/%E5%85%B3%E7%B3%BB2.PNG "关系2")
+![关系3](https://github.com/LHYxx/LHYxx.github.io/blob/master/2020/03/04/%E5%90%8D%E4%BA%BA%E5%85%B3%E7%B3%BB%E5%9B%BE%E9%89%B4-%E5%B0%8F%E4%B8%96%E7%95%8C%E7%90%86%E8%AE%BA/%E5%85%B3%E7%B3%BB3.PNG "关系3")
 
 # 关系搜索
 有了关系图之后，现在想实现以下功能：
