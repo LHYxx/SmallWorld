@@ -391,7 +391,7 @@ if __name__ == '__main__':
 	1. download_data()			#爬取数据，需要制定一个start_url，默认为鲁迅先生。爬取的人物数据默认保存在crawled_person_file中。为方便起见，关系数据单独拎出来一份，保存在crawled_relation_file中
 	2. clean_data(crawled_person_file, cleaned_person_file)  # 清洗人物数据
 	3. clean_relation_data(cleaned_person_file, crawled_relation_file, cleaned_relation_file)  # 清洗关系数据
-	4. Search('鲁迅', '钱玄同')
+	4. Search('cleaned_person_file_鲁迅.txt', '鲁迅', '杨幂')
 	'''
 
 	# download_data(r'https://baike.baidu.com/item/%E6%9B%B9%E6%93%8D/6772')
